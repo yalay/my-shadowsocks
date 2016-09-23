@@ -337,7 +337,7 @@ func loadBlackList(path string) map[string]bool {
 	buf := bufio.NewReader(blackFile)
 	for {
 		line, err := buf.ReadString('\n')
-		if err != io.EOF {
+		if err != nil && err != io.EOF {
 			break
 		}
 
@@ -346,11 +346,9 @@ func loadBlackList(path string) map[string]bool {
 			break
 		}
 
-		if err == nil || (err == io.EOF && len(line) != 0) {
-			line = strings.TrimSpace(line)
-			debug.Printf("add blacklist:%s\n", line)
-			blackListMap[line] = true
-		}
+		line = strings.TrimSpace(line)
+		debug.Printf("add blacklist:%s\n", line)
+		blackListMap[line] = true
 	}
 	return blackListMap
 }

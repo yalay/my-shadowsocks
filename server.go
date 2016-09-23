@@ -337,6 +337,15 @@ func loadBlackList(path string) map[string]bool {
 	buf := bufio.NewReader(blackFile)
 	for {
 		line, err := buf.ReadString('\n')
+		if err != io.EOF {
+			break
+		}
+
+		// 最后一行没有换行符时也需要读取一行
+		if err == io.EOF && len(line) == 0 {
+			break
+		}
+
 		if err == nil || (err == io.EOF && len(line) != 0) {
 			line = strings.TrimSpace(line)
 			debug.Printf("add blacklist:%s\n", line)

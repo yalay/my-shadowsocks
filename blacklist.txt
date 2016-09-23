@@ -1,2 +1,13 @@
 youku.com
 baidu.com
+jd.com
+taobao.com
+qq.com
+sina.com.cn
+sina.cn
+allyes.com
+qiyi.com
+adsunion.com
+sohu.com
+xunlei.com
+doubleclick.net

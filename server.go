@@ -140,7 +140,9 @@ func handleConnection(conn *ss.Conn, auth bool) {
 
 	host, ota, err := getRequest(conn, auth)
 	if err != nil {
-		log.Println("error getting request", conn.RemoteAddr(), conn.LocalAddr(), err)
+		if err != io.EOF {
+			log.Println("error getting request", host, conn.RemoteAddr(), conn.LocalAddr(), err)
+		}
 		return
 	}
 	debug.Println("connecting", host)

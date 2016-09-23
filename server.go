@@ -148,7 +148,6 @@ func handleConnection(conn *ss.Conn, auth bool) {
 		topDomain := getTopDomainByUrl(host)
 		if topDomain != "" && blackListMap[topDomain] {
 			log.Println(host + " is in black list")
-			closed = true
 			return
 		}
 	}

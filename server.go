@@ -12,7 +12,6 @@ import (
 	"net"
 	"os"
 	"os/signal"
-	"regexp"
 	"runtime"
 	"strconv"
 	"strings"
@@ -147,8 +146,7 @@ func handleConnection(conn *ss.Conn, auth bool) {
 	}
 	debug.Println("connecting", host)
 	if len(blackListMap) > 0 {
-		topDomain := getTopDomainByUrl(host)
-		if topDomain != "" && blackListMap[topDomain] {
+		if host != "" && blackListMap[host] {
 			log.Println(host + " is in black list")
 			return
 		}
@@ -353,14 +351,6 @@ func loadBlackList(path string) map[string]bool {
 		blackListMap[line] = true
 	}
 	return blackListMap
-}
-
-func getTopDomainByUrl(url string) string {
-	if url == "" {
-		return ""
-	}
-	reg := regexp.MustCompile(`[\w]+\.(com|net|org|gov|cc|biz|info|cn|co)(\.(cn|hk|uk|jp|tw|cc))?`)
-	return reg.FindString(url)
 }
 
 var configFile, blackListFile string

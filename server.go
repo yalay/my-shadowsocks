@@ -144,14 +144,16 @@ func handleConnection(conn *ss.Conn, auth bool) {
 		}
 		return
 	}
-	debug.Println("connecting", host)
+
 	if len(blackListMap) > 0 {
-		if host != "" && blackListMap[host] {
+		hostFields := strings.Split(host, ":")
+		if len(hostFields) > 0 && blackListMap[hostFields[0]] {
 			log.Println(host + " is in black list")
 			return
 		}
 	}
 
+	debug.Println("connecting", host)
 	remote, err := net.Dial("tcp", host)
 	if err != nil {
 		if ne, ok := err.(*net.OpError); ok && (ne.Err == syscall.EMFILE || ne.Err == syscall.ENFILE) {

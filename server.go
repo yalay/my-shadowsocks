@@ -417,6 +417,15 @@ func main() {
 	if core > 0 {
 		runtime.GOMAXPROCS(core)
 	}
+
+	defer func() {
+		if err := recover(); err != nil {
+			b := make([]byte, 1<<16)
+			n := runtime.Stack(b, false)
+			fmt.Fprintf(os.Stderr, "%s", b[:n])
+		}
+	}()
+
 	for port, password := range config.PortPassword {
 		go run(port, password, config.Auth)
 	}
